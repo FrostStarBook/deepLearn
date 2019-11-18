@@ -28,16 +28,16 @@ def parse_args():
     return args
 
 
-# 训练测试损失
+# 训练测试误差
 def train_test(executor, program, reader, feeder, fetch_list):
     accumulated = 1 * [0]
     count = 0
     for data_test in reader():
         outs = executor.run(
             program=program, feed=feeder.feed(data_test), fetch_list=fetch_list)
-        accumulated = [x_c[0] + x_c[1][0] for x_c in zip(accumulated, outs)]
-        count += 1
-    return [x_d / count for x_d in accumulated]
+        accumulated = [x_c[0] + x_c[1][0] for x_c in zip(accumulated, outs)]  # 累加测试过程中的损失值
+        count += 1  # 累加测试集中的样本数量
+    return [x_d / count for x_d in accumulated]  # 计算平均损失
 
 
 # 保存图片
@@ -59,6 +59,7 @@ def save_result(points1, points2):
     plt.plot(x1, y1, 'ro-', x1, y2, 'g+-')
     plt.title('预测值 VS 真实值 ', fontproperties=chinese_font)
     plt.ylabel(u'房价', fontproperties=chinese_font)
+    plt.xlabel(u'时间', fontproperties=chinese_font)
     plt.legend((u'预测值', u'真实值'), loc='best', prop=chinese_font)
     plt.savefig('./image/训练结果.png', fontproperties=chinese_font)
 
