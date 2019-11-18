@@ -112,7 +112,7 @@ def main():
     # 该api不会删除任何操作符,请在backward和optimization之前使用
     test_program = main_program.clone(for_test=True)
 
-    sgd_optimizer = fluid.optimizer.SGD(learning_rate=0.001)  # 学习率
+    sgd_optimizer = fluid.optimizer.SGD(learning_rate=0.1)  # 学习率
     sgd_optimizer.minimize(avg_loss)
 
     """
